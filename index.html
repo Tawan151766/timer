@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    />
+    <title>CPU Robotic</title>
+    <style>
+      .display-time {
+        font-size: 3rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container mt-5">
+      <div class="row mt-4">
+        <div class="col">
+          <h1 class="text-center">Timer for Sumo</h1>
+          <div id="timer" class="text-center display-time">0.00</div>
+          <div class="text-center">
+            <button id="startBtn" class="btn btn-primary btn-lg mt-3">
+              Start
+            </button>
+            <button
+              id="stopBtn"
+              class="btn btn-danger btn-lg mt-3 ml-2"
+              disabled
+            >
+              Stop
+            </button>
+            <button id="refreshBtn" class="btn btn-secondary btn-lg mt-3 ml-2">Refresh</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      var seconds = 0;
+      var timer;
+      var running = false;
+
+      function startTimer() {
+        running = true;
+        timer = setInterval(incrementSeconds, 10);
+        document.getElementById("startBtn").disabled = true;
+        document.getElementById("stopBtn").disabled = false;
+        document.getElementById("refreshBtn").disabled = true;
+      }
+
+      function stopTimer() {
+        running = false;
+        clearInterval(timer);
+        document.getElementById("startBtn").disabled = false;
+        document.getElementById("stopBtn").disabled = true;
+        document.getElementById("refreshBtn").disabled = false;
+      }
+
+      function incrementSeconds() {
+        if (running) {
+          seconds += 0.01;
+          document.getElementById("timer").textContent = seconds.toFixed(2);
+
+          if (seconds >= 5 && seconds <= 5.08) {
+            playSound();
+          }
+        }
+      }
+
+      function playSound() {
+        var audio = new Audio("sound.mp3");
+        audio.play();
+
+        setTimeout(function () {
+          audio.pause();
+          audio.currentTime = 0;
+        }, 1000);
+      }
+function refreshPage() {
+      location.reload();
+    }
+      document.getElementById("startBtn").addEventListener("click", startTimer);
+      document.getElementById("stopBtn").addEventListener("click", stopTimer);
+      document.getElementById("refreshBtn").addEventListener("click", refreshPage);
+    </script>
+  </body>
+</html>
